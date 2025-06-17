@@ -21,7 +21,7 @@ public class BidList {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "BidListId")
-        private Integer bidListId;
+        private  Integer bidListId;
 
         @NotBlank(message = "Account is mandatory")
         @Column(name = "account")
