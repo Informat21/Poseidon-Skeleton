@@ -1,6 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
+import com.nnk.springboot.repositories.RatingRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,22 +16,34 @@ import jakarta.validation.Valid;
 public class RatingController {
     // TODO: Inject Rating service
 
+    private final RatingRepository ratingRepository;
+    public RatingController(RatingRepository ratingRepository) {
+        this.ratingRepository = ratingRepository;
+    }
+
     @RequestMapping("/rating/list")
     public String home(Model model)
     {
         // TODO: find all Rating, add to model
+        model.addAttribute("ratings", ratingRepository.findAll());
         return "rating/list";
     }
 
     @GetMapping("/rating/add")
-    public String addRatingForm(Rating rating) {
+    public String addRatingForm(Model model) {
+        model.addAttribute("rating", new Rating());
         return "rating/add";
     }
 
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Rating list
-        return "rating/add";
+        if (result.hasErrors()) {
+            // If there are validation errors, return to the add form
+            return "rating/add";
+        }
+        ratingRepository.save(rating);// Assuming you have a ratingRepository to save the rating
+        return "redirect:/rating/list";
     }
 
     @GetMapping("/rating/update/{id}")

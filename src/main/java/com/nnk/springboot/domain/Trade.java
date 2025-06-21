@@ -3,6 +3,7 @@ package com.nnk.springboot.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "trade")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Trade {
