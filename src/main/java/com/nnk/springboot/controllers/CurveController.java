@@ -62,7 +62,7 @@ public class CurveController {
         if (result.hasErrors()){
             return "curvePoint/update";
         }
-        curvePoint.setId(id);
+//        curvePoint.setId(id);
         curvePointService.save(curvePoint);
         return "redirect:/curvePoint/list";
     }

@@ -49,6 +49,9 @@ public class RatingController {
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         // TODO: get Rating by Id and to model then show to the form
+        Rating rating = ratingRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid rating Id:" + id));
+        model.addAttribute("rating", rating);
         return "rating/update";
     }
 

@@ -22,15 +22,19 @@ public class Rating {
     @Column(name = "Id")
     private Integer id;
 
+    @NotBlank(message = "Moodys rating is required")
     @Column(name = "moodysRating")
     private String moodysRating;
 
+    @NotBlank(message = "SandP rating is required")
     @Column(name = "sandPRating")
     private String sandPRating;
 
+    @NotBlank(message = "Fitch rating is required")
     @Column(name = "fitchRating")
     private String fitchRating;
 
+    @NotNull(message = "Order number is required")
     @Column(name = "orderNumber")
     private Integer orderNumber;
 }

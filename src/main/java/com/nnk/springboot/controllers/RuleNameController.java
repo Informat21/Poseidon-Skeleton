@@ -60,7 +60,7 @@ public class RuleNameController {
             // If there are validation errors, return to the update form
             return "ruleName/update";
         }
-        ruleName.setId(id); // Ensure the ID is set for the update
+//        ruleName.setId(id); // Ensure the ID is set for the update
         ruleNameService.save(ruleName); // Save the updated RuleName
         return "redirect:/ruleName/list";
     }
