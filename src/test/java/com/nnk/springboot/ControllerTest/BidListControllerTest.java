@@ -3,13 +3,13 @@ package com.nnk.springboot.ControllerTest;
 import com.nnk.springboot.controllers.BidListController;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
-import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -35,16 +35,11 @@ public class BidListControllerTest {
     private AutoCloseable closeable;
     @Before
     public void setUp() {
-//        closeable=MockitoAnnotations.openMocks(this);
+
         mockMvc = MockMvcBuilders.standaloneSetup(bidListController).build();
 
     }
-//    @After
-//    public void tearDown() throws Exception {
-//        if (closeable !=null) {
-//            closeable.close();
-//        }
-//    }
+
 
     @Test
     public void testHome() throws Exception {

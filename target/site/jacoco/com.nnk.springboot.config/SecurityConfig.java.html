@@ -8,40 +8,70 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
+/**
+ * Configuration de la sécurité Spring Security.
+ * Définit les règles d'autorisation, la page de login, la gestion de la session, et la gestion du chiffrement des mots de passe.
+ */
 @Configuration
 @EnableWebSecurity
-<span class="fc" id="L13">public class SecurityConfig {</span>
+<span class="fc" id="L18">public class SecurityConfig {</span>
 
+    /**
+     * Configure la chaîne de filtres de sécurité HTTP.
+     *
+     * &lt;p&gt;
+     * - Autorise l'accès public aux ressources statiques (css, js, images) et aux pages login/logout.
+     * - Restreint l'accès aux URL &quot;/user/**&quot; aux utilisateurs avec le rôle ADMIN.
+     * - Toutes les autres URL nécessitent une authentification.
+     * - Configure la page de login personnalisée.
+     * - Configure la déconnexion et l'invalidation de session.
+     * - Désactive CSRF (à adapter selon le besoin).
+     * &lt;/p&gt;
+     *
+     * @param http l'objet HttpSecurity pour configurer la sécurité HTTP.
+     * @return la chaîne de filtres de sécurité construite.
+     * @throws Exception en cas d'erreur lors de la configuration.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-<span class="nc" id="L17">        http</span>
-<span class="nc" id="L18">                .authorizeHttpRequests((authorize) -&gt; authorize</span>
-<span class="nc" id="L19">                        .requestMatchers(&quot;/css/**&quot;, &quot;/js/**&quot;, &quot;/images/**&quot;).permitAll()</span>
-<span class="nc" id="L20">                        .requestMatchers(&quot;/login&quot;, &quot;/logout&quot;).permitAll()</span>
-<span class="nc" id="L21">                        .requestMatchers(&quot;/user/**&quot;).hasAuthority(&quot;ADMIN&quot;)</span>
-<span class="nc" id="L22">                        .anyRequest().authenticated()</span>
+<span class="nc" id="L38">        http</span>
+<span class="nc" id="L39">                .authorizeHttpRequests((authorize) -&gt; authorize</span>
+<span class="nc" id="L40">                        .requestMatchers(&quot;/css/**&quot;, &quot;/js/**&quot;, &quot;/images/**&quot;).permitAll()</span>
+<span class="nc" id="L41">                        .requestMatchers(&quot;/login&quot;, &quot;/logout&quot;).permitAll()</span>
+<span class="nc" id="L42">                        .requestMatchers(&quot;/user/**&quot;).hasAuthority(&quot;ADMIN&quot;)</span>
+<span class="nc" id="L43">                        .anyRequest().authenticated()</span>
                 )
-<span class="nc" id="L24">                .formLogin((formLogin) -&gt; formLogin</span>
-<span class="nc" id="L25">                        .loginPage(&quot;/login&quot;)</span>
-<span class="nc" id="L26">                        .defaultSuccessUrl(&quot;/bidList/list&quot;)</span>
-<span class="nc" id="L27">                        .failureUrl(&quot;/login?error=true&quot;)</span>
-<span class="nc" id="L28">                        .permitAll()</span>
+<span class="nc" id="L45">                .formLogin((formLogin) -&gt; formLogin</span>
+<span class="nc" id="L46">                        .loginPage(&quot;/login&quot;)</span>
+<span class="nc" id="L47">                        .defaultSuccessUrl(&quot;/bidList/list&quot;)</span>
+<span class="nc" id="L48">                        .failureUrl(&quot;/login?error=true&quot;)</span>
+<span class="nc" id="L49">                        .permitAll()</span>
                 )
-<span class="nc" id="L30">                .logout((logout) -&gt; logout</span>
-<span class="nc" id="L31">                        .logoutUrl(&quot;/logout&quot;)</span>
-<span class="nc" id="L32">                        .logoutSuccessUrl(&quot;/login?logout=true&quot;)</span>
-<span class="nc" id="L33">                        .deleteCookies(&quot;JSESSIONID&quot;)</span>
-<span class="nc" id="L34">                        .invalidateHttpSession(true)</span>
-<span class="nc" id="L35">                        .permitAll()</span>
+<span class="nc" id="L51">                .logout((logout) -&gt; logout</span>
+<span class="nc" id="L52">                        .logoutUrl(&quot;/logout&quot;)</span>
+<span class="nc" id="L53">                        .logoutSuccessUrl(&quot;/login?logout=true&quot;)</span>
+<span class="nc" id="L54">                        .deleteCookies(&quot;JSESSIONID&quot;)</span>
+<span class="nc" id="L55">                        .invalidateHttpSession(true)</span>
+<span class="nc" id="L56">                        .permitAll()</span>
                 )
-<span class="nc" id="L37">                .csrf(csrf -&gt; csrf.disable());</span>
+<span class="nc" id="L58">                .csrf(csrf -&gt; csrf.disable());</span>
 
-<span class="nc" id="L39">        return http.build();</span>
+<span class="nc" id="L60">        return http.build();</span>
     }
 
+    /**
+     * Bean pour le chiffrement des mots de passe avec BCrypt.
+     *
+     * &lt;p&gt;
+     * Utilisé par Spring Security pour encoder et vérifier les mots de passe.
+     * &lt;/p&gt;
+     *
+     * @return un PasswordEncoder utilisant BCrypt.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-<span class="fc" id="L44">        return new BCryptPasswordEncoder();</span>
+<span class="fc" id="L74">        return new BCryptPasswordEncoder();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

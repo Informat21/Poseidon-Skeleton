@@ -39,7 +39,7 @@ public class TradeController {
             // If there are validation errors, return to the add form
             return "trade/add";
         }
-        tradeRepository.save(trade); // Assuming you have a tradeRepository to save the trade
+        tradeRepository.save(trade);
         return "redirect:/trade/list";
     }
 

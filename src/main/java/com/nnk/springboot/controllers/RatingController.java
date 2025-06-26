@@ -42,7 +42,7 @@ public class RatingController {
             // If there are validation errors, return to the add form
             return "rating/add";
         }
-        ratingRepository.save(rating);// Assuming you have a ratingRepository to save the rating
+        ratingRepository.save(rating);
         return "redirect:/rating/list";
     }
 

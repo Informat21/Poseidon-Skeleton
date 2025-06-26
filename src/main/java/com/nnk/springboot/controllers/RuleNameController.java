@@ -39,7 +39,7 @@ public class RuleNameController {
             // If there are validation errors, return to the add form
             return "ruleName/add";
         }
-        ruleNameService.save(ruleName); // Assuming you have a ruleNameService to save the ruleName
+        ruleNameService.save(ruleName);
         return "redirect:/ruleName/list";
     }
 
@@ -60,7 +60,7 @@ public class RuleNameController {
             // If there are validation errors, return to the update form
             return "ruleName/update";
         }
-//        ruleName.setId(id); // Ensure the ID is set for the update
+//        ruleName.setId(id);
         ruleNameService.save(ruleName); // Save the updated RuleName
         return "redirect:/ruleName/list";
     }

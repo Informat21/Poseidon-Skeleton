@@ -31,8 +31,7 @@ public class LoginControllerTest {
     public void setUp() {
         loginController = new LoginController();
         loginController = injectUserRepository(loginController, userRepository);
-//        mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
-// Définir un ViewResolver simulé pour éviter les erreurs de "circular path"
+
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp"); // ou .html si tu utilises Thymeleaf
@@ -43,7 +42,7 @@ public class LoginControllerTest {
                 .build();
     }
 
-    // Méthode utilitaire pour injecter le mock manuellement car @Autowired n'est pas pris en compte par défaut
+
     private LoginController injectUserRepository(LoginController controller, UserRepository userRepository) {
         try {
             java.lang.reflect.Field field = LoginController.class.getDeclaredField("userRepository");
