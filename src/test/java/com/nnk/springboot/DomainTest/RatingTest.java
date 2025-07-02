@@ -11,6 +11,8 @@ public class RatingTest {
     public void testRatingConstructorAndGetters() {
         // GIVEN
         Rating rating = new Rating();
+
+        // WHEN
         rating.setMoodysRating("Moodys Aaa");
         rating.setSandPRating("S&P AA+");
         rating.setFitchRating("Fitch AA");
@@ -25,15 +27,14 @@ public class RatingTest {
 
     @Test
     public void testRatingAllArgsConstructor() {
-        // WHEN
+        // GIVEN
         Rating rating = new Rating();
+
+        // WHEN
         rating.setMoodysRating("Moodys Baa");
         rating.setSandPRating("S&P BBB");
         rating.setFitchRating("Fitch BBB-");
         rating.setOrderNumber(5);
-
-
-
 
         // THEN
         assertEquals("Moodys Baa", rating.getMoodysRating());

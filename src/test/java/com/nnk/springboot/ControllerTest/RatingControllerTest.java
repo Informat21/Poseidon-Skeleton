@@ -2,7 +2,7 @@ package com.nnk.springboot.ControllerTest;
 
 import com.nnk.springboot.controllers.RatingController;
 import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.services.RatingService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class RatingControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private RatingRepository ratingRepository;
+    private RatingService ratingService;
 
     @InjectMocks
     private RatingController ratingController;
@@ -39,7 +39,7 @@ public class RatingControllerTest {
 
     @Test
     public void testHome() throws Exception {
-        when(ratingRepository.findAll()).thenReturn(Arrays.asList(new Rating()));
+        when(ratingService.findAll()).thenReturn(Arrays.asList(new Rating()));
 
         mockMvc.perform(get("/rating/list"))
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class RatingControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/rating/list"));
 
-        verify(ratingRepository, times(1)).save(any(Rating.class));
+        verify(ratingService, times(1)).save(any(Rating.class));
     }
     @Test
     public void testValidateInvalidRating() throws Exception {
@@ -77,7 +77,7 @@ public class RatingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("rating/add"));
 
-        verify(ratingRepository, times(0)).save(any(Rating.class));
+        verify(ratingService, times(0)).save(any(Rating.class));
     }
 
 
@@ -85,7 +85,7 @@ public class RatingControllerTest {
     public void testShowUpdateForm() throws Exception {
         Rating rating = new Rating();
         rating.setId(1);
-        when(ratingRepository.findById(1)).thenReturn(Optional.of(rating));
+        when(ratingService.findById(1)).thenReturn(Optional.of(rating));
 
         mockMvc.perform(get("/rating/update/1"))
                 .andExpect(status().isOk())

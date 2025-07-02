@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
 
     @Autowired
     private CurvePointService curvePointService;
@@ -25,7 +24,7 @@ public class CurveController {
     public String home(Model model)
     {
         model.addAttribute("curvePoints", curvePointService.findAll());
-        // TODO: find all Curve Point, add to model
+
         return "curvePoint/list";
     }
 
@@ -37,9 +36,7 @@ public class CurveController {
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // If there are validation errors, return to the add form
 
-            // TODO: check data valid and save to db, after saving return Curve list
             return "curvePoint/add";
         }
         curvePointService.save(curvePoint);
@@ -51,14 +48,14 @@ public class CurveController {
         CurvePoint curvePoint = curvePointService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Curve Point Id:" + id));
         model.addAttribute("curvePoint", curvePoint);
-        // TODO: get CurvePoint by Id and to model then show to the form
+
         return "curvePoint/update";
     }
 
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
+
         if (result.hasErrors()){
             return "curvePoint/update";
         }
@@ -70,7 +67,7 @@ public class CurveController {
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         curvePointService.deleteById(id);
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
+
         return "redirect:/curvePoint/list";
     }
 }

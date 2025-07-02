@@ -11,6 +11,8 @@ public class RuleTest {
     public void testRuleNameConstructorAndGetters() {
         // GIVEN
         RuleName rule = new RuleName();
+
+        // WHEN
         rule.setName("Test Name");
         rule.setDescription("Test Description");
         rule.setJson("Test Json");
@@ -29,16 +31,16 @@ public class RuleTest {
 
     @Test
     public void testRuleNameAllArgsConstructor() {
-        // WHEN
+        // GIVEN
         RuleName rule = new RuleName();
+
+        // WHEN
         rule.setName("Rule Name");
         rule.setDescription("Description");
         rule.setJson("Json");
         rule.setTemplate("Template");
         rule.setSqlStr("SQL");
         rule.setSqlPart("SQL Part");
-
-
 
         // THEN
         assertEquals("Rule Name", rule.getName());

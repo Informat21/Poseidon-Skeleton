@@ -1,8 +1,8 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-spring-boot-skeleton,com.nnk.springboot.controllers,LoginController,0,44,0,0,0,13,0,4,0,4
+spring-boot-skeleton,com.nnk.springboot.controllers,LoginController,0,37,0,0,0,10,0,4,0,4
 spring-boot-skeleton,com.nnk.springboot.controllers,HomeController,0,7,0,0,0,3,0,3,0,3
 spring-boot-skeleton,com.nnk.springboot.controllers,CurveController,10,56,2,2,2,16,3,7,1,7
-spring-boot-skeleton,com.nnk.springboot.controllers,UserController,0,128,0,4,0,27,0,11,0,9
+spring-boot-skeleton,com.nnk.springboot.controllers,UserController,0,109,0,4,0,27,0,11,0,9
 spring-boot-skeleton,com.nnk.springboot.controllers,BidListController,6,65,3,3,3,19,3,7,0,7
 spring-boot-skeleton,com.nnk.springboot.controllers,RatingController,6,56,0,2,0,17,1,8,1,7
 spring-boot-skeleton,com.nnk.springboot.controllers,TradeController,0,84,0,4,0,22,0,11,0,9
@@ -14,6 +14,5 @@ spring-boot-skeleton,com.nnk.springboot.services,BidListService,0,26,0,0,0,8,0,5
 spring-boot-skeleton,com.nnk.springboot.services,TradeService,0,26,0,0,0,8,0,5,0,5
 spring-boot-skeleton,com.nnk.springboot.services,UserDetailsServiceImpl,0,45,0,0,0,14,0,3,0,3
 spring-boot-skeleton,com.nnk.springboot.services,RatingService,0,26,0,0,0,8,0,5,0,5
-spring-boot-skeleton,com.nnk.springboot.config,SecurityConfig,93,7,0,0,19,2,5,2,5,2
+spring-boot-skeleton,com.nnk.springboot.config,SecurityConfig,110,7,0,0,22,2,6,2,6,2
 spring-boot-skeleton,com.nnk.springboot,Application,8,0,0,0,3,0,2,0,2,0
-spring-boot-skeleton,com.nnk.springboot.domain,User,3,32,0,0,1,14,1,9,1,9

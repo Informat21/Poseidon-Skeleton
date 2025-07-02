@@ -2,12 +2,12 @@ package com.nnk.springboot.ControllerTest;
 
 import com.nnk.springboot.controllers.UserController;
 import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -17,10 +17,11 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Mock
     private Model model;
@@ -28,21 +29,21 @@ public class UserControllerTest {
     @Mock
     private BindingResult bindingResult;
 
-    @InjectMocks
     private UserController userController;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+
+      userController= new UserController(userService);
     }
 
     @Test
     public void testHome() {
-        when(userRepository.findAll()).thenReturn(Arrays.asList(new User()));
+        when(userService.findAll()).thenReturn(Arrays.asList(new User()));
 
         String result = userController.home(model);
 
-        verify(userRepository).findAll();
+        verify(userService).findAll();
         verify(model).addAttribute(eq("users"), any());
         assertEquals("user/list", result);
     }
@@ -57,14 +58,13 @@ public class UserControllerTest {
     @Test
     public void testValidate_Valid() {
         User user = new User();
-        user.setPassword("1234");
+        user.setPassword("Admin1234!");
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+        lenient().when(userService.findAll()).thenReturn(Arrays.asList(user));
 
         String result = userController.validate(user, bindingResult, model);
 
-        verify(userRepository).save(any(User.class));
-        verify(model).addAttribute(eq("users"), any());
+        verify(userService).save(any(User.class));
         assertEquals("redirect:/user/list", result);
     }
 
@@ -74,7 +74,7 @@ public class UserControllerTest {
 
         String result = userController.validate(new User(), bindingResult, model);
 
-        verify(userRepository, never()).save(any());
+        verify(userService, never()).save(any());
         assertEquals("user/add", result);
     }
 
@@ -82,7 +82,7 @@ public class UserControllerTest {
     public void testShowUpdateForm_ValidId() {
         User user = new User();
         user.setPassword("secret");
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userService.findById(1)).thenReturn(Optional.of(user));
 
         String result = userController.showUpdateForm(1, model);
 
@@ -93,7 +93,7 @@ public class UserControllerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowUpdateForm_InvalidId() {
-        when(userRepository.findById(999)).thenReturn(Optional.empty());
+        when(userService.findById(999)).thenReturn(Optional.empty());
 
         userController.showUpdateForm(999, model);
     }
@@ -103,12 +103,11 @@ public class UserControllerTest {
         User user = new User();
         user.setPassword("updatedPassword");
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+        lenient().when(userService.findAll()).thenReturn(Arrays.asList(user));
 
-        String result = userController.updateUser(1, user, bindingResult, model);
+        String result = userController.updateUser(1, user, bindingResult);
 
-        verify(userRepository).save(any(User.class));
-        verify(model).addAttribute(eq("users"), any());
+        verify(userService).save(any(User.class));
         assertEquals("redirect:/user/list", result);
     }
 
@@ -116,29 +115,28 @@ public class UserControllerTest {
     public void testUpdateUser_Invalid() {
         when(bindingResult.hasErrors()).thenReturn(true);
 
-        String result = userController.updateUser(1, new User(), bindingResult, model);
+        String result = userController.updateUser(1, new User(), bindingResult);
 
-        verify(userRepository, never()).save(any());
+        verify(userService, never()).save(any());
         assertEquals("user/update", result);
     }
 
     @Test
     public void testDeleteUser_ValidId() {
         User user = new User();
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
-        when(userRepository.findAll()).thenReturn(Arrays.asList());
+        when(userService.findById(1)).thenReturn(Optional.of(user));
+        lenient().when(userService.findAll()).thenReturn(Arrays.asList());
 
-        String result = userController.deleteUser(1, model);
+        String result = userController.deleteUser(1);
 
-        verify(userRepository).delete(user);
-        verify(model).addAttribute(eq("users"), any());
+        verify(userService).deleteById(1);
         assertEquals("redirect:/user/list", result);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDeleteUser_InvalidId() {
-        when(userRepository.findById(999)).thenReturn(Optional.empty());
+        when(userService.findById(999)).thenReturn(Optional.empty());
 
-        userController.deleteUser(999, model);
+        userController.deleteUser(999);
     }
 }

@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 
 @Controller
 <span class="fc" id="L17">public class CurveController {</span>
-    // TODO: Inject Curve Point service
 
     @Autowired
     private CurvePointService curvePointService;
@@ -24,54 +23,52 @@ import jakarta.validation.Valid;
     @RequestMapping(&quot;/curvePoint/list&quot;)
     public String home(Model model)
     {
-<span class="fc" id="L27">        model.addAttribute(&quot;curvePoints&quot;, curvePointService.findAll());</span>
-        // TODO: find all Curve Point, add to model
-<span class="fc" id="L29">        return &quot;curvePoint/list&quot;;</span>
+<span class="fc" id="L26">        model.addAttribute(&quot;curvePoints&quot;, curvePointService.findAll());</span>
+
+<span class="fc" id="L28">        return &quot;curvePoint/list&quot;;</span>
     }
 
     @GetMapping(&quot;/curvePoint/add&quot;)
     public String addBidForm(CurvePoint bid) {
-<span class="fc" id="L34">        return &quot;curvePoint/add&quot;;</span>
+<span class="fc" id="L33">        return &quot;curvePoint/add&quot;;</span>
     }
 
     @PostMapping(&quot;/curvePoint/validate&quot;)
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (result.hasErrors()) {</span>
-            // If there are validation errors, return to the add form
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if (result.hasErrors()) {</span>
 
-            // TODO: check data valid and save to db, after saving return Curve list
-<span class="nc" id="L43">            return &quot;curvePoint/add&quot;;</span>
+<span class="nc" id="L40">            return &quot;curvePoint/add&quot;;</span>
         }
-<span class="fc" id="L45">        curvePointService.save(curvePoint);</span>
-<span class="fc" id="L46">        return &quot;redirect:/curvePoint/list&quot;;</span>
+<span class="fc" id="L42">        curvePointService.save(curvePoint);</span>
+<span class="fc" id="L43">        return &quot;redirect:/curvePoint/list&quot;;</span>
     }
 
     @GetMapping(&quot;/curvePoint/update/{id}&quot;)
     public String showUpdateForm(@PathVariable(&quot;id&quot;) Integer id, Model model) {
-<span class="fc" id="L51">        CurvePoint curvePoint = curvePointService.findById(id)</span>
-<span class="pc" id="L52">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Invalid Curve Point Id:&quot; + id));</span>
-<span class="fc" id="L53">        model.addAttribute(&quot;curvePoint&quot;, curvePoint);</span>
-        // TODO: get CurvePoint by Id and to model then show to the form
-<span class="fc" id="L55">        return &quot;curvePoint/update&quot;;</span>
+<span class="fc" id="L48">        CurvePoint curvePoint = curvePointService.findById(id)</span>
+<span class="pc" id="L49">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Invalid Curve Point Id:&quot; + id));</span>
+<span class="fc" id="L50">        model.addAttribute(&quot;curvePoint&quot;, curvePoint);</span>
+
+<span class="fc" id="L52">        return &quot;curvePoint/update&quot;;</span>
     }
 
     @PostMapping(&quot;/curvePoint/update/{id}&quot;)
     public String updateBid(@PathVariable(&quot;id&quot;) Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        if (result.hasErrors()){</span>
-<span class="nc" id="L63">            return &quot;curvePoint/update&quot;;</span>
+
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (result.hasErrors()){</span>
+<span class="nc" id="L60">            return &quot;curvePoint/update&quot;;</span>
         }
-//        curvePoint.setId(id);
-<span class="fc" id="L66">        curvePointService.save(curvePoint);</span>
-<span class="fc" id="L67">        return &quot;redirect:/curvePoint/list&quot;;</span>
+
+<span class="fc" id="L63">        curvePointService.save(curvePoint);</span>
+<span class="fc" id="L64">        return &quot;redirect:/curvePoint/list&quot;;</span>
     }
 
     @GetMapping(&quot;/curvePoint/delete/{id}&quot;)
     public String deleteBid(@PathVariable(&quot;id&quot;) Integer id, Model model) {
-<span class="fc" id="L72">        curvePointService.deleteById(id);</span>
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
-<span class="fc" id="L74">        return &quot;redirect:/curvePoint/list&quot;;</span>
+<span class="fc" id="L69">        curvePointService.deleteById(id);</span>
+
+<span class="fc" id="L71">        return &quot;redirect:/curvePoint/list&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

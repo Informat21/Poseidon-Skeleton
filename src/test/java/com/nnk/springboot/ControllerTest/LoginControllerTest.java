@@ -2,9 +2,11 @@ package com.nnk.springboot.ControllerTest;
 
 import com.nnk.springboot.controllers.LoginController;
 import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,18 +25,17 @@ public class LoginControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
+    @InjectMocks
     private LoginController loginController;
 
     @Before
     public void setUp() {
-        loginController = new LoginController();
-        loginController = injectUserRepository(loginController, userRepository);
 
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp"); // ou .html si tu utilises Thymeleaf
+        viewResolver.setSuffix(".jsp");
 
         mockMvc = MockMvcBuilders
                 .standaloneSetup(loginController)
@@ -63,7 +64,7 @@ public class LoginControllerTest {
 
     @Test
     public void testGetAllUserArticles() throws Exception {
-        when(userRepository.findAll()).thenReturn(Collections.emptyList());
+        when(userService.findAll()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/secure/article-details"))
                 .andExpect(status().isOk())

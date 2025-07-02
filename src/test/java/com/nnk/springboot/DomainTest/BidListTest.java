@@ -11,11 +11,13 @@ public class BidListTest {
     public void testBidListConstructorAndGetters() {
         // GIVEN
         BidList bidList = new BidList();
+
+        // WHEN
         bidList.setAccount("TestAccount");
         bidList.setType("TestType");
         bidList.setBidQuantity(100.0);
 
-        // WHEN / THEN
+        // THEN
         assertEquals("TestAccount", bidList.getAccount());
         assertEquals("TestType", bidList.getType());
         assertEquals(Double.valueOf(100.0), bidList.getBidQuantity());
@@ -37,7 +39,7 @@ public class BidListTest {
 
     @Test
     public void testBidListAllArgsConstructor() {
-        // WHEN
+        // GIVEN
         BidList bidList = new BidList(
                 1,
                 "Account1",

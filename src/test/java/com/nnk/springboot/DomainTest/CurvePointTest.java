@@ -13,6 +13,8 @@ public class CurvePointTest  {
     public void testCurvePointConstructorAndGetters() {
         // GIVEN
         CurvePoint curvePoint = new CurvePoint();
+
+        // WHEN
         curvePoint.setCurveId(10);
         curvePoint.setTerm(10d);
         curvePoint.setValue(30d);

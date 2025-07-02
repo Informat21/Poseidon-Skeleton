@@ -4,6 +4,7 @@ package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,11 +16,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidList {
-        // TODO: Map columns in data table BIDLIST with corresponding java fields
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "BidListId")
+        @Column(name = "bid_list_id")
         private  Integer bidListId;
 
         @NotBlank(message = "Account is mandatory")
@@ -30,15 +30,19 @@ public class BidList {
         @Column(name = "type")
         private String type;
 
+        @PositiveOrZero(message = "Bid quantity must be zero or positive")
         @Column(name = "bidQuantity")
         private Double bidQuantity;
 
+        @PositiveOrZero(message = "Ask quantity must be zero or positive")
         @Column(name = "askQuantity")
         private Double askQuantity;
 
+        @PositiveOrZero(message = "Bid must be zero or positive")
         @Column(name = "bid")
         private Double bid;
 
+        @PositiveOrZero(message = "Ask must be zero or positive")
         @Column(name = "ask")
         private Double ask;
 

@@ -2,12 +2,12 @@ package com.nnk.springboot.ControllerTest;
 
 import com.nnk.springboot.controllers.TradeController;
 import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.services.TradeService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -17,10 +17,12 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TradeControllerTest {
 
+
     @Mock
-    private TradeRepository tradeRepository;
+    private TradeService tradeService;
 
     @Mock
     private Model model;
@@ -28,22 +30,23 @@ public class TradeControllerTest {
     @Mock
     private BindingResult bindingResult;
 
-    @InjectMocks
+
     private TradeController tradeController;
 
     @Before
     public void setup() {
-        MockitoAnnotations.openMocks(this);
+
+        tradeController = new TradeController(tradeService);
     }
 
     @Test
     public void testHome() {
-        when(tradeRepository.findAll()).thenReturn(Arrays.asList(new Trade()));
+        when(tradeService.findAll()).thenReturn(Arrays.asList(new Trade()));
 
         String result = tradeController.home(model);
 
-        verify(tradeRepository).findAll();
-        verify(model).addAttribute(eq("trades"), any());
+        verify(tradeService, times(1)).findAll();
+        verify(model, times(1)).addAttribute(eq("trades"), any());
         assertEquals("trade/list", result);
     }
 
@@ -61,7 +64,7 @@ public class TradeControllerTest {
 
         String result = tradeController.validate(trade, bindingResult, model);
 
-        verify(tradeRepository).save(trade);
+        verify(tradeService, times(1)).save(trade);
         assertEquals("redirect:/trade/list", result);
     }
 
@@ -71,24 +74,25 @@ public class TradeControllerTest {
 
         String result = tradeController.validate(new Trade(), bindingResult, model);
 
-        verify(tradeRepository, never()).save(any());
+        verify(tradeService, never()).save(any());
         assertEquals("trade/add", result);
     }
 
     @Test
     public void testShowUpdateForm_ValidId() {
         Trade trade = new Trade();
-        when(tradeRepository.findById(1)).thenReturn(Optional.of(trade));
+        when(tradeService.findById(1)).thenReturn(Optional.of(trade));
 
         String result = tradeController.showUpdateForm(1, model);
 
-        verify(model).addAttribute("trade", trade);
+        verify(tradeService, times(1)).findById(1);
+        verify(model, times(1)).addAttribute("trade", trade);
         assertEquals("trade/update", result);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShowUpdateForm_InvalidId() {
-        when(tradeRepository.findById(999)).thenReturn(Optional.empty());
+        when(tradeService.findById(999)).thenReturn(Optional.empty());
 
         tradeController.showUpdateForm(999, model);
     }
@@ -100,7 +104,7 @@ public class TradeControllerTest {
 
         String result = tradeController.updateTrade(1, trade, bindingResult, model);
 
-        verify(tradeRepository).save(trade);
+        verify(tradeService, times(1)).save(trade);
         assertEquals("redirect:/trade/list", result);
     }
 
@@ -110,24 +114,25 @@ public class TradeControllerTest {
 
         String result = tradeController.updateTrade(1, new Trade(), bindingResult, model);
 
-        verify(tradeRepository, never()).save(any());
+        verify(tradeService, never()).save(any());
         assertEquals("trade/update", result);
     }
 
     @Test
     public void testDeleteTrade_ValidId() {
         Trade trade = new Trade();
-        when(tradeRepository.findById(1)).thenReturn(Optional.of(trade));
+        when(tradeService.findById(1)).thenReturn(Optional.of(trade));
+        doNothing().when(tradeService).deleteById(1);
 
         String result = tradeController.deleteTrade(1, model);
 
-        verify(tradeRepository).delete(trade);
+        verify(tradeService, times(1)).deleteById(1);
         assertEquals("redirect:/trade/list", result);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDeleteTrade_InvalidId() {
-        when(tradeRepository.findById(999)).thenReturn(Optional.empty());
+        when(tradeService.findById(999)).thenReturn(Optional.empty());
 
         tradeController.deleteTrade(999, model);
     }

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-skeleton</a> &gt; <a href="index.source.html" class="el_package">com.nnk.springboot.config</a> &gt; <span class="el_source">SecurityConfig.java</span></div><h1>SecurityConfig.java</h1><pre class="source lang-java linenums">package com.nnk.springboot.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
 /**
- * Configuration de la sécurité Spring Security.
- * Définit les règles d'autorisation, la page de login, la gestion de la session, et la gestion du chiffrement des mots de passe.
+ * Gère la sécurité de l'application avec Spring Security.
+ * Définit les accès, la page de login et le chiffrement des mots de passe.
  */
 @Configuration
 @EnableWebSecurity
-<span class="fc" id="L18">public class SecurityConfig {</span>
+<span class="fc" id="L22">public class SecurityConfig {</span>
 
     /**
-     * Configure la chaîne de filtres de sécurité HTTP.
+     * Configure la sécurité HTTP.
+     * Autorise l'accès aux ressources (CSS, JS, images) et aux pages login/logout.
+     * Autorise l'accès à /user/** seulement aux admins.
+     * Demande une connexion pour les autres pages.
+     * Configure les pages de connexion et de déconnexion.
+     * Désactive CSRF.
      *
-     * &lt;p&gt;
-     * - Autorise l'accès public aux ressources statiques (css, js, images) et aux pages login/logout.
-     * - Restreint l'accès aux URL &quot;/user/**&quot; aux utilisateurs avec le rôle ADMIN.
-     * - Toutes les autres URL nécessitent une authentification.
-     * - Configure la page de login personnalisée.
-     * - Configure la déconnexion et l'invalidation de session.
-     * - Désactive CSRF (à adapter selon le besoin).
-     * &lt;/p&gt;
-     *
-     * @param http l'objet HttpSecurity pour configurer la sécurité HTTP.
-     * @return la chaîne de filtres de sécurité construite.
-     * @throws Exception en cas d'erreur lors de la configuration.
+     * @param http objet de configuration de sécurité
+     * @return la configuration de sécurité
+     * @throws Exception en cas d'erreur
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -59,19 +59,24 @@ import org.springframework.security.web.SecurityFilterChain;
 
 <span class="nc" id="L60">        return http.build();</span>
     }
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+<span class="nc" id="L67">        AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);</span>
+<span class="nc" id="L68">        authBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());</span>
+<span class="nc" id="L69">        return authBuilder.build();</span>
+    }
 
     /**
-     * Bean pour le chiffrement des mots de passe avec BCrypt.
+     * Utilise BCrypt pour sécuriser les mots de passe.
      *
-     * &lt;p&gt;
-     * Utilisé par Spring Security pour encoder et vérifier les mots de passe.
-     * &lt;/p&gt;
-     *
-     * @return un PasswordEncoder utilisant BCrypt.
+     * @return un encodeur de mot de passe
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-<span class="fc" id="L74">        return new BCryptPasswordEncoder();</span>
+<span class="fc" id="L79">        return new BCryptPasswordEncoder();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

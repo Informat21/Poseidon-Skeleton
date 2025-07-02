@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,11 +16,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Trade {
-    // TODO: Map columns in data table TRADE with corresponding java fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TradeId")
+    @Column(name = "trade_id")
     private Integer tradeId;
 
 
@@ -34,18 +34,22 @@ public class Trade {
 
 
     @Column(name = "buyQuantity")
+    @PositiveOrZero(message = "Buy quantity must be zero or positive")
     private Double buyQuantity;
 
 
     @Column(name = "sellQuantity")
+    @PositiveOrZero(message = "Sell quantity must be zero or positive")
     private Double sellQuantity;
 
 
     @Column(name = "buyPrice")
+    @PositiveOrZero(message = "Buy price must be zero or positive")
     private Double buyPrice;
 
 
     @Column(name = "sellPrice")
+    @PositiveOrZero(message = "Sell price must be zero or positive")
     private Double sellPrice;
 
 
