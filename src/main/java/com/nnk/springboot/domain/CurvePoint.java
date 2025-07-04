@@ -22,11 +22,11 @@ public class CurvePoint {
     @Column(name = "Id")
     private Integer id;
 
-    @Column(name = "CurveId")
+    @Column(name = "curve_id")
     @NotNull(message = "CurveId is mandatory")
     private Integer curveId;
 
-    @Column(name = "asOfDate")
+    @Column(name = "as_of_date")
     private Timestamp asOfDate;
 
     @Column(name = "term")
@@ -39,6 +39,6 @@ public class CurvePoint {
     @PositiveOrZero(message = "Value must be zero or positive")
     private Double value;
 
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     private Timestamp creationDate;
 }

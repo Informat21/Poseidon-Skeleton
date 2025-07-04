@@ -19,23 +19,23 @@ public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private Integer id;
 
     @NotBlank(message = "Moodys rating is required")
-    @Column(name = "moodysRating")
+    @Column(name = "moodys_rating")
     private String moodysRating;
 
     @NotBlank(message = "SandP rating is required")
-    @Column(name = "sandPRating")
+    @Column(name = "sandprating")
     private String sandPRating;
 
     @NotBlank(message = "Fitch rating is required")
-    @Column(name = "fitchRating")
+    @Column(name = "fitch_rating")
     private String fitchRating;
 
     @NotNull(message = "Order number is required")
-    @Column(name = "orderNumber")
+    @Column(name = "order_number")
     @PositiveOrZero(message = "Order number must be zero or positive")
     private Integer orderNumber;
 }
